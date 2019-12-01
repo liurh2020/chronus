@@ -1,6 +1,7 @@
-# Chronus Project
+<img src="https://github.com/360jinrong/chronus/blob/master/doc/images/chronus-logo.svg" alt="chronus logo" height="90px" />
 
-Chronus是360金融技术团队基于阿里开源项目-TBSchedule进行重写的分布式调度平台，内部经历了5个里程碑版本。平台零开发，无缝支持Dubbo协议，未来支持Http，SpringCloud，期望成为微服务生态轻量级分布式调度平台。为了回馈开源社区，保证开源质量、稳定性，持续投入，开源内部生产版本，内外部版本保持一致。得益于继承TBSchedule良好设计思想，Chronus经过大量Job生产验证，稳定性达99.999%。
+
+**Chronus**是360金融技术团队基于阿里开源项目-TBSchedule进行重写的分布式调度平台，内部经历了5个里程碑版本。平台零开发，无缝支持Dubbo协议，未来支持Http，SpringCloud，期望成为微服务生态轻量级分布式调度平台。为了回馈开源社区，保证开源质量、稳定性，持续投入，开源内部生产版本，内外部版本保持一致。得益于继承TBSchedule良好设计思想，Chronus经过大量Job生产验证，稳定性达99.999%。
                                                                        
 ## Architecture
 
@@ -30,25 +31,24 @@ Chronus是360金融技术团队基于阿里开源项目-TBSchedule进行重写�
 ### Defining spring bean handler
 
 ```java
-@Service("testBean")
-public class TestBean implements JssSdkService<String> {
-    private static final Logger logger = LogManager.getLogger(TestBean.class);
-    
+@Service("selectExecuteBean")
+public class SelectExecuteBean implements ChronusSdkSingleJob<Integer> {
+    private static final Logger logger = LogManager.getLogger(SelectExecuteBean.class);
+
     @Override
-    public List<String> selectTasks(String s, List<TaskItemDefineDomain> list, int i1) throws Exception {
-        List<String> result = new ArrayList<>();
-        result.add("1");
+    public List<Integer> selectTasks(String taskParameter, List<TaskItemDefineDomain> list, int eachFetchDataNum) throws Exception {
+        List<Integer> result = new ArrayList<>();
+        //查询数据集合
         return result;
     }
 
     @Override
-    public boolean execute(String domain, String s) throws Exception {
-        logger.info("开始处理名单导入初始化，当前时间:{}", LocalDateTime.now());
-        System.out.println(domain);
-        logger.info("结束处理名单导入初始化，当前时间:{}", LocalDateTime.now());
+    public boolean execute(Integer domain, String taskParameter) throws Exception {
+        // 处理集合中的每一项
         return true;
     }
 }
+
 ```
 
 ## Document
